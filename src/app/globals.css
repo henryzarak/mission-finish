@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-mf-black: #000000;
+  --color-mf-white: #ffffff;
+  --color-mf-gray-100: #f5f5f5;
+  --color-mf-gray-200: #e5e5e5;
+  --color-mf-gray-300: #d4d4d4;
+  --color-mf-gray-400: #a3a3a3;
+  --color-mf-gray-500: #737373;
+  --color-mf-gray-600: #525252;
+  --color-mf-gray-700: #404040;
+  --color-mf-gray-800: #262626;
+  --color-mf-gray-900: #171717;
+  --font-mf-sans: var(--font-geist-sans);
+  --font-mf-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #000000;
+  color: #ffffff;
 }
