@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { getGuide } from "@/lib/guides"
+import { getGuide, guides } from "@/lib/guides"
 import { ProgressTrackerWrapper } from "./ProgressTrackerWrapper"
+import { GuideCard } from "@/components/GuideCard"
+import Link from "next/link"
 
 export async function generateMetadata({
   params,
@@ -23,11 +25,16 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { guides } = await import("@/lib/guides")
   return guides.map((g) => ({ slug: g.slug }))
 }
 
 export const dynamicParams = false
+
+function getRelatedGuides(slug: string, category: string) {
+  return guides
+    .filter((g) => g.slug !== slug && g.category === category)
+    .slice(0, 2)
+}
 
 export default async function GuideDetailPage({
   params,
@@ -47,43 +54,63 @@ export default async function GuideDetailPage({
     Content = null
   }
 
+  const related = getRelatedGuides(slug, guide.category)
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-medium text-mf-gray-400 uppercase tracking-wider">
+          <Link
+            href="/guides"
+            className="text-xs font-medium text-mf-gray-400 dark:text-[#525252] hover:text-mf-black dark:hover:text-white transition-colors"
+          >
+            ← Guías
+          </Link>
+          <span className="text-xs text-mf-gray-300 dark:text-[#333]">/</span>
+          <span className="text-xs font-medium text-mf-gray-400 dark:text-[#525252] uppercase tracking-wider">
             {guide.category}
           </span>
-          <span className="text-xs text-mf-gray-300">·</span>
-          <span className="text-xs text-mf-gray-500">{guide.duration}</span>
-          <span className="text-xs text-mf-gray-300">·</span>
-          <span className="text-xs text-mf-gray-500">{guide.sections} secciones</span>
+          <span className="text-xs text-mf-gray-300 dark:text-[#333]">·</span>
+          <span className="text-xs text-mf-gray-500 dark:text-[#737373]">{guide.duration}</span>
+          <span className="text-xs text-mf-gray-300 dark:text-[#333]">·</span>
+          <span className="text-xs text-mf-gray-500 dark:text-[#737373]">{guide.sections} secciones</span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-mf-black mb-3">
+        <h1 className="text-3xl md:text-4xl font-bold text-mf-black dark:text-white mb-3">
           {guide.title}
         </h1>
-        <p className="text-mf-gray-500 max-w-2xl text-lg">
+        <p className="text-mf-gray-500 dark:text-[#a3a3a3] max-w-2xl text-lg">
           {guide.description}
         </p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-12">
-        {/* Content */}
         <div className="flex-1 min-w-0">
           {Content ? (
-            <article className="prose-custom max-w-none">
+            <article className="max-w-none">
               <Content />
             </article>
           ) : (
-            <div className="rounded-xl border border-mf-gray-200 bg-mf-gray-50 p-8 text-center text-mf-gray-400">
-              <p className="text-lg font-medium text-mf-black mb-2">Contenido en camino</p>
+            <div className="rounded-xl border border-mf-gray-200 dark:border-[#222] bg-mf-gray-50 dark:bg-[#111] p-8 text-center text-mf-gray-400 dark:text-[#525252]">
+              <p className="text-lg font-medium text-mf-black dark:text-white mb-2">Contenido en camino</p>
               <p className="text-sm">Esta guía está siendo preparada. Vuelve pronto.</p>
             </div>
           )}
+
+          {/* Related guides */}
+          {related.length > 0 && (
+            <section className="mt-16 pt-12 border-t border-mf-gray-200 dark:border-[#222]">
+              <h2 className="text-lg font-semibold text-mf-black dark:text-white mb-4">
+                Guías relacionadas
+              </h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                {related.map((g) => (
+                  <GuideCard key={g.slug} guide={g} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
-        {/* Sidebar */}
         <aside className="lg:w-72 shrink-0">
           <div className="lg:sticky lg:top-20">
             <ProgressTrackerWrapper

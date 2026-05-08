@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/cn"
-import { Check, Lock } from "lucide-react"
+import { Check } from "lucide-react"
 
 interface ProgressTrackerProps {
   totalSections: number
@@ -22,31 +22,29 @@ export function ProgressTracker({
   const isCompleted = completedSections >= totalSections && totalSections > 0
 
   return (
-    <div className="rounded-xl border border-mf-gray-200 bg-mf-white p-5">
+    <div className="rounded-xl border border-mf-gray-200 dark:border-[#222] bg-mf-white dark:bg-[#111] p-5">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-mf-black">Tu progreso</h3>
-        <span className="text-2xl font-bold text-mf-black tabular-nums">
+        <h3 className="text-sm font-semibold text-mf-black dark:text-white">Tu progreso</h3>
+        <span className="text-2xl font-bold text-mf-black dark:text-white tabular-nums">
           {percentage}%
         </span>
       </div>
 
-      {/* Progress bar */}
-      <div className="h-1.5 w-full rounded-full bg-mf-gray-100 overflow-hidden">
+      <div className="h-1.5 w-full rounded-full bg-mf-gray-100 dark:bg-[#222] overflow-hidden">
         <div
           className={cn(
             "h-full rounded-full transition-all duration-500",
-            isCompleted ? "bg-mf-black" : "bg-mf-gray-700"
+            isCompleted ? "bg-mf-black dark:bg-white" : "bg-mf-gray-700 dark:bg-[#a3a3a3]"
           )}
           style={{ width: `${percentage}%` }}
         />
       </div>
 
-      <p className="mt-2 text-xs text-mf-gray-500">
+      <p className="mt-2 text-xs text-mf-gray-500 dark:text-[#737373]">
         {completedSections} de {totalSections} secciones completadas
         {isCompleted && " — ¡Misión cumplida!"}
       </p>
 
-      {/* Section checkboxes */}
       <div className="mt-4 space-y-1.5">
         {Array.from({ length: totalSections }).map((_, i) => {
           const done = i < completedSections
@@ -59,10 +57,10 @@ export function ProgressTracker({
               className={cn(
                 "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors",
                 done
-                  ? "text-mf-gray-500 line-through"
+                  ? "text-mf-gray-500 dark:text-[#737373] line-through"
                   : current
-                    ? "text-mf-black font-medium bg-mf-gray-50"
-                    : "text-mf-gray-600 hover:bg-mf-gray-50",
+                    ? "text-mf-black dark:text-white font-medium bg-mf-gray-50 dark:bg-[#1a1a1a]"
+                    : "text-mf-gray-600 dark:text-[#a3a3a3] hover:bg-mf-gray-50 dark:hover:bg-[#1a1a1a]",
                 disabled && "cursor-not-allowed opacity-60"
               )}
             >
@@ -70,18 +68,18 @@ export function ProgressTracker({
                 className={cn(
                   "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors",
                   done
-                    ? "border-mf-black bg-mf-black text-white"
+                    ? "border-mf-black dark:border-white bg-mf-black dark:bg-white text-white dark:text-black"
                     : current
-                      ? "border-mf-black"
-                      : "border-mf-gray-300"
+                      ? "border-mf-black dark:border-white"
+                      : "border-mf-gray-300 dark:border-[#444]"
                 )}
               >
                 {done ? <Check size={12} strokeWidth={3} /> : <span className="text-[10px]">{i + 1}</span>}
               </span>
               Sección {i + 1}
-              {done && <span className="ml-auto text-xs text-mf-gray-400">✓</span>}
+              {done && <span className="ml-auto text-xs text-mf-gray-400 dark:text-[#525252]">✓</span>}
               {current && !done && (
-                <span className="ml-auto text-xs text-mf-black font-medium">En progreso</span>
+                <span className="ml-auto text-xs text-mf-black dark:text-white font-medium">En progreso</span>
               )}
             </button>
           )

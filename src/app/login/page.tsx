@@ -6,8 +6,8 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-20">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold text-mf-black">Entrar</h1>
-        <p className="text-sm text-mf-gray-500 mt-2">
+        <h1 className="text-2xl font-bold text-mf-black dark:text-white">Entrar</h1>
+        <p className="text-sm text-mf-gray-500 dark:text-[#a3a3a3] mt-2">
           Continúa tu misión donde la dejaste.
         </p>
       </div>
@@ -38,9 +38,9 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-mf-gray-500">
+      <p className="mt-6 text-center text-sm text-mf-gray-500 dark:text-[#a3a3a3]">
         ¿No tienes cuenta?{" "}
-        <Link href="/signup" className="font-medium text-mf-black underline underline-offset-4 hover:opacity-70">
+        <Link href="/signup" className="font-medium text-mf-black dark:text-white underline underline-offset-4 hover:opacity-70">
           Regístrate
         </Link>
       </p>

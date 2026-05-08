@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Navigation } from "@/components/Navigation"
+import { ThemeProvider } from "@/components/ThemeProvider"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -51,16 +52,19 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-mf-white text-mf-black">
-        <Navigation />
-        <main className="flex-1">{children}</main>
-        <footer className="border-t border-mf-gray-200 py-8 text-center text-xs text-mf-gray-400">
-          <div className="max-w-5xl mx-auto px-4">
-            MISSION FINISH — La misión no se pausa.<br />
-            <span className="text-mf-gray-300">© {new Date().getFullYear()} Ondeska Holdings</span>
-          </div>
-        </footer>
+      <body className="min-h-full flex flex-col bg-mf-white text-mf-black dark:bg-[#0a0a0a] dark:text-[#ededed]">
+        <ThemeProvider>
+          <Navigation />
+          <main className="flex-1">{children}</main>
+          <footer className="border-t border-mf-gray-200 dark:border-[#222] py-8 text-center text-xs text-mf-gray-400 dark:text-[#525252]">
+            <div className="max-w-5xl mx-auto px-4">
+              MISSION FINISH — La misión no se pausa.<br />
+              <span className="text-mf-gray-300 dark:text-[#404040]">© {new Date().getFullYear()} Ondeska Holdings</span>
+            </div>
+          </footer>
+        </ThemeProvider>
       </body>
     </html>
   )
